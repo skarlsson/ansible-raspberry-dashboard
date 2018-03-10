@@ -1,0 +1,6 @@
+- name: 'Configure WIFI'
+  template: src=wpa_supplicant.conf dest=/etc/wpa_supplicant/wpa_supplicant.conf mode=0600
+
+- name: 'Configure network interfaces'
+  template: src=interfaces dest=/etc/network/interfaces mode=0644
+  

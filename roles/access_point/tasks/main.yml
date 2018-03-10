@@ -1,0 +1,44 @@
+- name: install packages for access point
+  apt: pkg={{ item }} state=latest
+  sudo: yes
+  with_items:
+    - dnsmasq
+    - hostapd
+
+- lineinfile: dest=/etc/dhcpcd.conf regexp="^denyinterfaces wlan1" insertbefore=^interface line='denyinterfaces wlan1'
+- lineinfile: dest=/etc/dhcpcd.conf regexp="^denyinterfaces wlan0" insertbefore=^interface line='denyinterfaces wlan0'
+
+- template: src=interfaces dest=/etc/network/interfaces
+
+- template: src=hostapd.conf dest=/etc/hostapd/hostapd.conf
+
+- service: name=dhcpcd state=restarted
+
+#- command: bash -c "ifdown wlan0 && ifup wlan0"	
+- command: bash -c "ifdown wlan1 && ifup wlan1"	
+
+- lineinfile: dest=/etc/default/hostapd regexp="^DAEMON_CONF" line='DAEMON_CONF="/etc/hostapd/hostapd.conf"'
+
+- template: src=dnsmasq.conf dest=/etc/dnsmasq.conf
+
+- lineinfile: dest=/etc/sysctl.conf regexp="^net.ipv4.ip_forward=1" line='net.ipv4.ip_forward=1'
+  
+- service: name=hostapd state=started enabled=true
+
+- service: name=dnsmasq state=started enabled=true
+
+- name: install packages for mqtt
+  apt: pkg={{ item }} state=latest
+  sudo: yes
+  with_items:
+    - mosquitto
+    - nodered
+    - npm
+
+- template: src=mosquitto.conf dest=/etc/mosquitto/conf.d/mosquitto.conf
+ 
+- service: name=mosquitto state=started enabled=true
+
+- service: name=nodered state=started enabled=true
+
+#- npm: name=coffee-script

@@ -1,0 +1,24 @@
+[raspberry]
+192.168.0.205
+192.168.0.210
+192.168.0.221
+192.168.0.222
+192.168.0.248
+192.168.0.249
+192.168.0.250
+192.168.0.251
+192.168.0.252
+
+[dashboard]
+#192.168.0.222 grafana_server=10.1.47.4:3000 dashboard=dash-b
+192.168.0.249 grafana_server=10.1.47.4:3000 dashboard=dash-b  # ovanför dörren
+192.168.0.250 grafana_server=10.1.47.4:3000 dashboard=dash-b  # vä skrivbord
+#192.168.0.251 grafana_server=10.1.47.4:3000 dashboard=dash-b  # 
+#192.168.0.252 grafana_server=10.1.47.4:3000 dashboard=dash-b  # 
+
+#192.168.0.222 grafana_server=192.168.0.78 dashboard=kafka-csia
+#192.168.0.249 grafana_server=192.168.0.78 dashboard=dash-a  # ovanför dörren
+#192.168.0.250 grafana_server=192.168.0.78 dashboard=dash-b  # vä skrivbord
+#192.168.0.251 grafana_server=192.168.0.78 dashboard=dash-c  # 
+#192.168.0.252 grafana_server=192.168.0.78 dashboard=dash-d  # 
+#http://10.1.47.16:3000/dashboard/db/dash-b

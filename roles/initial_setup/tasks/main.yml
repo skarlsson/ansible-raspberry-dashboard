@@ -1,0 +1,45 @@
+---
+# This role conains tasks for servers reboot in rolling manner
+
+- name: Creates destination directory on the Pi for our key.
+#      file: state=directory mode=0007 dest=/home/pi/.ssh/
+
+  file: state=directory dest=/home/pi/.ssh/
+
+- name: pushes your RSA key to the Raspberry Pi. (Don't worry if this fails)
+#      copy: src=~/.ssh/id_rsa.pub dest=/home/pi/.ssh/authorized_keys owner=pi mode=0007
+  copy: src=~/.ssh/id_rsa.pub dest=/home/pi/.ssh/authorized_keys owner=pi
+  register: rsa
+  ignore_errors: yes
+
+- name: Pushes your DSA key to the Raspberry Pi.(it's NOT ok if both TASKs fail)
+#      copy: src=~/.ssh/id_dsa.pub dest=/home/pi/pi/.ssh/authorized_keys owner=pi mode=0007
+  copy: src=~/.ssh/id_dsa.pub dest=/home/pi/pi/.ssh/authorized_keys owner=pi
+  when: rsa|failed
+
+- name: Uninstall the massive wolfram-alpha engine
+  apt: pkg={{ item }} state=absent
+  sudo: yes
+  with_items:
+    - wolfram-engine
+
+- name: Autoremove any unused packages.
+  shell: "apt-get autoremove --assume-yes --purge"
+  sudo: yes
+
+- name: Let's Autoclean the system.
+  shell: "apt-get autoclean --assume-yes"
+  sudo: yes      
+
+- name: Resize root file system
+  sudo: yes
+  script: resize.sh creates=/etc/csi/root_file_system_expanded
+ 
+- name: reboot
+  command: /sbin/shutdown -r now
+
+- name: waiting for port after reboot
+  wait_for: host={{ inventory_hostname }} port=22 delay=30 state=started
+  connection: local
+  sudo: false
+ 

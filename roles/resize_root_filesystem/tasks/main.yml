@@ -1,0 +1,7 @@
+---
+- name: Resize root file system
+  sudo: yes
+  script: resize.sh creates=/etc/csi/root_file_system_expanded
+  notify: reboot
+  
+  

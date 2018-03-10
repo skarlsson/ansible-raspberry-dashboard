@@ -1,0 +1,5 @@
+@lxpanel --profile LXDE
+@pcmanfm --desktop --profile LXDE
+@xset s off
+@xset -dpms
+@chromium --kiosk  --disable-java --incognito --disable-translate  --enable-zero-copy  --enable-offline-auto-reload --auto-launch-at-startup "http://{{ grafana_server }}/dashboard/db/{{ dashboard }}"

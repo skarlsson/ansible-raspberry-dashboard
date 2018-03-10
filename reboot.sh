@@ -1,0 +1,1 @@
+ansible-playbook -i inventories/test_hosts --limit $1 reboot.yml

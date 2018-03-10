@@ -1,0 +1,40 @@
+ssh-copy-id ubuntu@192.168.241.130
+ssh-copy-id pi@192.168.0.2
+
+pscp C:\[HOME]\.ssh\id_rsa ubuntu@192.168.241.130:/home/ubuntu/.ssh
+pscp C:\[HOME]\.ssh\id_rsa.pub ubuntu@192.168.241.130:/home/ubuntu/.ssh
+
+pscp C:\[HOME]\.ssh\id_rsa saka@192.168.241.130:/home/saka/.ssh
+pscp C:\[HOME]\.ssh\id_rsa.pub saka@192.168.241.130:/home/saka/.ssh
+
+
+chmod 700 ~/.ssh && chmod 600 ~/.ssh/*
+
+
+
+sudo apt-get -y update
+sudo apt-get -y upgrade
+sudo apt-get -y install git subversion emacs python-dev python-pip python-netaddr uuid-runtime python-setuptools libssl-dev
+sudo easy_install pip
+#python -m pip -qqq install -U pip
+sudo pip install paramiko PyYAML Jinja2 httplib2
+sudo apt-get -y install software-properties-common
+sudo apt-add-repository ppa:ansible/ansible
+sudo apt-get update
+sudo apt-get -y --allow-unauthenticated install ansible
+
+
+log in.
+
+
+svn co https://svn1.csi.se:18080/svn/p64/ansible_for_raspberry
+
+ssh-copy-id pi@192.168.0.218
+
+
+cd ansible_for_raspberry
+
+
+ansible-playbook -i inventories/antilia initial_setup.yml
+
+

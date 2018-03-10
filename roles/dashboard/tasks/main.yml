@@ -1,0 +1,48 @@
+---
+
+#- apt_repository: repo='ppa:chromium-daily/stable' state=present
+#  sudo: yes
+  
+- apt: update_cache=yes
+  sudo: yes
+
+- service: name=lightdm enabled=yes
+  sudo: yes
+
+#todo
+#remove epiphany-browser
+  
+- name: Make sure some basic tools are installed
+  apt: pkg={{ item }} state=latest
+  sudo: yes
+  with_items:
+    - x11-xserver-utils
+    - chromium-browser
+    - unclutter
+
+# get rid of warnings
+- command : ln -s /usr/lib/arm-linux-gnueabihf/nss/ /usr/lib/nss creates=/usr/lib/nss 
+  sudo: yes
+  
+- name: Update the configuration 1
+  template: src=etc.lightdm.lightdm.conf.j2 dest=/etc/lightdm/lightdm.conf
+  notify:
+    - reboot
+
+- name: Update the configuration 2
+  template: src=etc.xdg.lxsession.LXDE.autostart.j2 dest=/etc/xdg/lxsession/LXDE/autostart
+  notify:
+   - reboot
+
+- name: Update the configuration 2b ??? 
+  template: src=etc.xdg.lxsession.LXDE.autostart.j2 dest=/etc/xdg/lxsession/LXDE-pi/autostart
+  notify:
+   - reboot
+  
+- name: Turn off display
+  cron: name="turn off display" minute="0" hour="23" job="tvservice --off > /dev/null"
+
+- name: Turn on display
+  cron: name="turn on display" minute="0" hour="7" job="tvservice --preferred > /dev/null && fbset -depth 8; fbset -depth 16; xrefresh"
+  
+  

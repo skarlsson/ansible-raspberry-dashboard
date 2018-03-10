@@ -1,0 +1,5 @@
+[raspberry]
+10.100.5.51
+
+[dashboard]
+10.100.5.51 grafana_server=10.100.5.50 dashboard=kafka-sitea

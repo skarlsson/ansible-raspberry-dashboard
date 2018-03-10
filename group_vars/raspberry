@@ -1,0 +1,11 @@
+ansible_ssh_user: 'pi'
+ansible_ssh_pass: raspberry
+#ansible_ssh_port: 5986
+#ansible_connection: winrm  
+
+# Work around missing detection of Raspbian in Ansible
+apt_default_sources_lookup: 'raspbian'
+apt_default_mirrors_lookup: 'raspbian'
+
+timezone: 'Europe/Stockholm'
+

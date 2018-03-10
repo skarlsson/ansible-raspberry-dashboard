@@ -1,0 +1,7 @@
+ap_if: "wlan1"
+ap_ip: "172.24.1.1"
+ap_network: "172.24.1.0"
+ap_broadcast: "172.24.1.255"
+ap_dhcp_range: "172.24.1.50,172.24.1.150,12h"
+ap_ssid: "pi3-ap"
+ap_psk:  "boatymacboatface"
